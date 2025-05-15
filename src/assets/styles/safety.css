@@ -6,6 +6,53 @@ body.dark-theme {
   background: linear-gradient(135deg, #1a1a1a, #333);
   color: #f9f9f9;
 }
+.crimeprevention-nav {
+    position: relative; /* Ensure the navbar is the reference point for positioning */
+}
+
+.crimeprevention-nav .hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute; /* Position the button relative to the navbar */
+    top: 10px; /* Adjust the vertical position */
+    right: 10px; /* Adjust the horizontal position */
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+@media (max-width: 768px) {
+    .crimeprevention-nav .hamburger-menu {
+        display: block;
+    }
+
+    .crimeprevention-nav .nav-links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background-color: rgb(52, 51, 51);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 200px;
+        border-radius: 5px;
+    }
+
+    .crimeprevention-nav .nav-links.open {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .crimeprevention-nav .nav-link {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .crimeprevention-nav .nav-link:last-child {
+        border-bottom: none;
+    }
+}
 
 body.dark-theme header,
 body.dark-theme footer {
