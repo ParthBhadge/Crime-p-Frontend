@@ -1,0 +1,157 @@
+/* login.css */
+
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #e6f0ff, #b3d9ff); /* Gradient background */
+  rightmargin: 25%;  
+}
+
+/* Login Container */
+.login-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#cpl{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+  background: linear-gradient(135deg, #f7fb85, #ffdd57); /* Gradient background */
+  border-radius: 7px;
+  text-align: center; 
+  color: #006699;/* Center align text inside */
+}
+
+
+.login-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.login-container h2 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.login-container input:focus {
+  outline: none;
+  border-color: #006699;
+  box-shadow: 0 0 8px rgba(0, 102, 153, 0.3);
+}
+
+.captcha-container {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.captcha-container input {
+  flex: 1;
+  margin-right: 0.75rem;
+}
+
+.captcha-container .captcha-code {
+  background-color: #e6f0ff;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.captcha-container .captcha-code:hover {
+  background-color: #b3d9ff;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  opacity: 0.9;
+}
+
+.logo {
+  margin-left: -60px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff317;
+  text-decoration: none;
+}
+
+.forgot-password {
+  display: block;
+  margin-top: 1rem;
+  color: #006699;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: #004466;
+  text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .login-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .login-container h2 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .login-container h2 {
+    font-size: 1.2rem;
+  }
+
+  .login-container input {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  button {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+}

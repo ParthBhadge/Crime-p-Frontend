@@ -1,0 +1,251 @@
+.admin-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+.sp{
+  margin-bottom: 100px;
+}
+
+.complaints-table {
+  margin: 20px auto;
+  width: 90%;
+  border-collapse: collapse;
+}
+
+.complaints-table table {
+  width: 100%;
+  border: 1px solid #ddd;
+}
+.gradient-bg {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  width: 100%;
+}
+.space{
+  margin: 50px;
+}
+
+.complaints-table th,
+.complaints-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.complaints-table th {
+  background-color: #f4f4f4;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status.pending {
+  color: orange;
+}
+
+.status.in-progress {
+  color: blue;
+}
+
+.status.resolved {
+  color: green;
+}
+/* Navbar Styles */
+header {
+  background-color: #006699; /* Navbar background color */
+  color: #fff; /* Text color */
+  padding: 1rem 0; /* Padding for the navbar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  animation: fadeInDown 1s ease-out; /* Animation for navbar appearance */
+  margin-left: -20px;
+}
+
+nav {
+  display: flex; /* Flexbox for alignment */
+  justify-content: space-between; /* Space between logo and menu */
+  align-items: center; /* Center items vertically */
+  padding: 0 2rem; /* Horizontal padding */
+}
+
+nav .logo {
+  font-size: 2rem; /* Logo font size */
+  font-weight: bold; /* Bold logo text */
+  color: #fff; /* Logo text color */
+  text-decoration: none; /* Remove underline */
+}
+
+nav ul {
+  list-style: none; /* Remove bullet points */
+  margin: 0; /* Reset margin */
+  padding: 0; /* Reset padding */
+  display: flex; /* Flexbox for menu items */
+  align-items: center; /* Center menu items vertically */
+}
+
+nav li {
+  margin: 0 1rem; /* Spacing between menu items */
+  position: relative; /* For dropdowns if needed */
+}
+
+nav a {
+  color: #fff; /* Menu item text color */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold; /* Bold text */
+  padding: 0.5rem 1rem; /* Padding for clickable area */
+  transition: all 0.3s ease; /* Smooth hover effect */
+  border-radius: 5px; /* Rounded corners */font-size: large;
+}
+
+nav a:hover {
+  background-color: #ffdd57; 
+  color: #006699;
+  height: 80px;
+  width: 80px;
+  ali
+}
+
+nav .profile-icon {
+  width: 30px; /* Icon width */
+  height: 30px; /* Icon height */
+  border-radius: 50%; /* Circular icon */
+  background-color: #fff; /* Background color */
+  display: flex; /* Flexbox for centering */
+  align-items: center; /* Center icon vertically */
+  justify-content: center; /* Center icon horizontally */
+  font-size: 1.2rem; /* Icon font size */
+  color: #006699; /* Icon color */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+nav .profile-icon:hover {
+  background-color: #ffdd57; /* Highlight color on hover */
+}
+.hamburger-menu:hover {
+  background-color: #ffdd57; /* Yellow background */
+  color: #000000; /* Blue icon color */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+/* Theme Toggle Button */
+.theme-toggle {
+  background: none; /* No background */
+  border: none; /* No border */
+  color: #fff; /* Text color */
+  font-size: 1.2rem; /* Font size */
+  cursor: pointer; /* Pointer cursor */
+  padding: 0.5rem 1rem; /* Padding for clickable area */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+.hamburger-menu {
+  display: block;
+  font-size: 24px;
+  background: #ffdd57;
+  border: none;
+  color: #000000; /* Blue color */
+  cursor: pointer;
+  z-index: 1000; /* Ensure it is above other elements */
+  position: relative;
+  top: -20px; /* Move upwards by 20px */
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Subtle highlight on hover */
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the left */
+  }
+
+  nav ul {
+    flex-direction: column; /* Stack menu items vertically */
+    width: 100%; /* Full width */
+  }
+
+  nav li {
+    margin: 0.5rem 0; /* Spacing between menu items */
+  }
+}
+
+select {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* General Navbar Styles */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-links li {
+  display: inline-block;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.hamburger-menu {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hamburger-menu {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #333;
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+  }
+}
