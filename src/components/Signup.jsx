@@ -194,7 +194,8 @@ const Signup = () => {
               type="button"
               style={{
                 marginLeft: '6px',
-                padding: '2px 6px',
+                padding: '2px 4px', // Reduced width
+                minWidth: '32px',   // Ensures it's small but clickable
                 fontSize: '1.1em',
                 background: 'none',
                 border: 'none',
