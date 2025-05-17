@@ -104,6 +104,7 @@ const Form = () => {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
+            <div className="space" >  </div> 
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Complaint Form</h1>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Please fill out the form carefully to register your complaint. Your feedback is important to us.</p>
           </div>
