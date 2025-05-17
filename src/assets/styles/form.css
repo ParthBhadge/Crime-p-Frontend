@@ -5,6 +5,9 @@
 .gradient-bg:hover {
   background: linear-gradient(135deg, #3b82f6, #1e3a8a);
 }
+.space {
+  margin: 100 px;
+}
 
 /* Light Theme (Default) */
 body {
