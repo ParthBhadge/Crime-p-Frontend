@@ -9,6 +9,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false); // Toggle between login and OTP form
+  const [showPassword, setShowPassword] = useState(false); // <-- Add this line
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -34,8 +35,8 @@ const Login = () => {
       } else if (response.status === 403 && result.error === 'Please verify your email before logging in.') {
         // Redirect to OTP verification form
         alert(result.error);
-        setOtpSent(true); // Show OTP form
-        await handleResendOtp();
+        setOtpSent(true);
+         await handleResendOtp(); // Show OTP form
       } else {
         // Handle other errors
         alert(result.error || 'Login failed.');
@@ -132,14 +133,23 @@ const Login = () => {
             onChange={handleChange}
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              style={{ marginLeft: '8px' }}
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
           <button type="submit">Login</button>
         </form>
       ) : (
