@@ -31,13 +31,8 @@ const Signup = () => {
 
   // Function to validate password
   const validatePassword = (password) => {
-    const requirements = [
-      /[A-Z]/, // Uppercase
-      /[a-z]/, // Lowercase
-      /[0-9]/, // Number
-      /[^A-Za-z0-9]/, // Special character
-    ];
-    return requirements.every((regex) => regex.test(password));
+    // No requirements, always return true
+    return true;
   };
 
   // Function to clear the form
@@ -71,9 +66,10 @@ const Signup = () => {
       alert('Password does not meet requirements.');
       return;
     }
-   if (!validateCaptcha()) {
+
+    if (!validateCaptcha()) {
       alert('Captcha does not match. Please try again.');
-      generateCaptcha(); // Optionally refresh captcha
+      generateCaptcha();
       setUserInput('');
       return;
     }
@@ -91,6 +87,9 @@ const Signup = () => {
           `${result.message || 'Signup successful!'} Please check your email inbox or spam folder for the verification email.`
         );
         setOtpSent(true); // Show OTP input
+
+        // Send OTP after successful signup
+        await handleResendOtp();
       } else {
         alert('Error: ' + (result.error || 'Unknown error occurred.'));
       }
@@ -123,30 +122,6 @@ const Signup = () => {
     }
   };
 
-  const handleGoogleSignupSuccess = (credentialResponse) => {
-    const decoded = jwt_decode(credentialResponse.credential);
-    console.log('Google User:', decoded);
-
-    // Send the Google token to the backend for verification and account creation
-    fetch(`${BASE_URL}/api/auth/google-signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: credentialResponse.credential }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          alert('Google Signup successful');
-        } else {
-          alert('Google Signup failed');
-        }
-      })
-      .catch((error) => {
-        console.error('Error with Google Signup:', error);
-        alert('An error occurred with Google Signup. Please try again later.');
-      });
-  };
 
   const handleResendOtp = async () => {
     try {
@@ -219,22 +194,6 @@ const Signup = () => {
             required
             onFocus={() => setShowPasswordRequirements(false)}
           />
-          {showPasswordRequirements && (
-            <div className="password-requirements">
-              <strong>Password must contain:</strong>
-              <ul>
-                <li>At least one uppercase letter</li>
-                <li>At least one lowercase letter</li>
-                <li>At least one number</li>
-                <li>At least one special character</li>
-              </ul>
-            </div>
-          )}
-          {showPasswordRequirements && (
-            <div className="sample-password">
-              <strong>Sample Password:</strong> Pass@123
-            </div>
-          )}
           <div className="captcha-container">
             <input
               type="text"
@@ -251,7 +210,7 @@ const Signup = () => {
               {captcha}
             </div>
           </div>
-          <button type="submit">Signup</button>
+          <button  type="submit">Signup</button>
           <button className="cancel" onClick={clearForm}>
             Cancel
           </button>
