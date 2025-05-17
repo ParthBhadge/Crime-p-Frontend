@@ -12,6 +12,7 @@ const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   // Function to generate a random captcha
@@ -176,19 +177,28 @@ const Signup = () => {
             required
             onFocus={() => setShowPasswordRequirements(false)}
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              handleChange(e);
-            }}
-            onFocus={() => setShowPasswordRequirements(true)}
-            required
-          />
-{/*           <input
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                handleChange(e);
+              }}
+              onFocus={() => setShowPasswordRequirements(true)}
+              required
+            />
+            <button
+              type="button"
+              style={{ marginLeft: '8px' }}
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
+          {/* <input
             type="password"
             placeholder="Re-enter Password"
             required
