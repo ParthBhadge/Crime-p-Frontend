@@ -71,6 +71,12 @@ const Signup = () => {
       alert('Password does not meet requirements.');
       return;
     }
+   if (!validateCaptcha()) {
+      alert('Captcha does not match. Please try again.');
+      generateCaptcha(); // Optionally refresh captcha
+      setUserInput('');
+      return;
+    }
 
     try {
       const response = await fetch(`${BASE_URL}/api/auth/register`, {
