@@ -1,133 +1,196 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import '../assets/styles/type.css'; // Import the CSS file
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode'; // To decode the Google token
+import '../assets/styles/login.css';
+import { Link } from 'react-router-dom';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const Login = () => {
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false); // Toggle between login and OTP form
+  const [showPassword, setShowPassword] = useState(false); // <-- Add this line
+  const navigate = useNavigate();
 
-const New = () => {
-  const [isNavbarOpen, setIsNavbarOpen] = useState(false); // State for navbar toggle
-
-  // Theme toggle function
-  const toggleTheme = () => {
-    const body = document.body;
-    body.classList.toggle('dark-theme');
-
-    // Save theme preference in localStorage
-    const isDarkTheme = body.classList.contains('dark-theme');
-    localStorage.setItem('dark-theme', isDarkTheme);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Toggle navbar
-  const toggleNavbar = () => {
-    setIsNavbarOpen((prevState) => !prevState);
-  };
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  useEffect(() => {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('dark-theme');
-    if (savedTheme === 'true') {
-      document.body.classList.add('dark-theme');
+    try {
+      const response = await fetch(`${BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, password: formData.password }),
+      });
+
+      const result = await response.json();
+      if (response.status === 200) {
+        // Login successful
+        alert('Login successful.');
+        localStorage.setItem('token', result.token);
+        navigate('/home'); // Redirect to home page
+      } else if (response.status === 403 && result.error === 'Please verify your email before logging in.') {
+        // Redirect to OTP verification form
+        alert(result.error);
+        setOtpSent(true);
+         await handleResendOtp(); // Show OTP form
+      } else {
+        // Handle other errors
+        alert(result.error || 'Login failed.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('Failed to log in. Please try again.');
     }
-  }, []);
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/auth/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email, otp }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message || 'Email verified successfully!');
+        setOtpSent(false); // Reset OTP form state
+        navigate('/login'); // Redirect to login page after successful verification
+      } else {
+        alert('Error: ' + (result.error || 'Invalid OTP.'));
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+      alert('Failed to verify OTP. Please try again.');
+    }
+  };
+
+  const handleResendOtp = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/auth/resend-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.email }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(result.message || 'OTP resent successfully!');
+      } else {
+        alert('Error: ' + (result.error || 'Failed to resend OTP.'));
+      }
+    } catch (error) {
+      console.error('Error resending OTP:', error);
+      alert('Failed to resend OTP. Please try again.');
+    }
+  };
+
+  const handleGoogleLoginSuccess = (credentialResponse) => {
+    const decoded = jwt_decode(credentialResponse.credential);
+    console.log('Google User:', decoded);
+
+    // Send the Google token to the backend for verification
+    fetch(`${BASE_URL}/api/auth/google-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: credentialResponse.credential }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          alert('Google Login successful');
+          navigate('/profile');
+        } else {
+          alert('Google Login failed Go and Signup ');
+        }
+      })
+      .catch((error) => {
+        console.error('Error with Google Login:', error);
+        alert('An error occurred with Google Login. Please try again later.');
+      });
+  };
 
   return (
-    <div>
-      {/* Navigation Bar */}
-      <header className="gradient-bg shadow-lg">
-        <nav>
-          <div className="nav-header">
-            <Link to="/" className="logo2">Crime Portal</Link>
-            <button className="hamburger-menu" onClick={toggleNavbar}>
-              ☰
+    <div className="login-container">
+      <div id='cpl' >
+      <Link to="/" id='cpltxt' className="logo2">Crime Portal</Link>
+      </div>
+      <h2>Login</h2>
+      {!otpSent ? (
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              style={{
+                marginLeft: '6px',
+                padding: '2px 4px', // Reduced width
+                minWidth: '28px',   // Smaller but still clickable
+                fontSize: '1.1em',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              onClick={() => setShowPassword((prev) => !prev)}
+              tabIndex={-1}
+            >
+              {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
-          <ul className={`nav-links ${isNavbarOpen ? 'open' : ''}`}>
-            <li><Link to="/home" className="nav-link">Home</Link></li>
-            <li><Link to="/contact" className="nav-link">Contact</Link></li>
-            <li>
-              <button className="theme-toggle" onClick={toggleTheme}>🌓</button>
-            </li>
-            <li>
-              <Link to="/profile" className="profile-icon">👤</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+          <button type="submit">Login</button>
+        </form>
+      ) : (
+        <form onSubmit={handleVerifyOtp}>
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            required
+          />
+          <button type="submit">Verify OTP</button>
+          <button type="button" onClick={handleResendOtp}>Send OTP</button>
+        </form>
+      )}
 
-      {/* Main Content */}
-      <main>
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-col text-center w-full mb-20">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4">
-              Injustice Anywhere, Is A Threat To Justice Everywhere.
-            </h1>
-            <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-              Select Your Appropriate Options Given Below and Kindly Register Your Form Carefully. It Is NOT EDITABLE After Submission.
-            </p>
-          </div>
-          <div className="flex flex-wrap -m-4">
-            {/* Crime Categories */}
-            {[
-              {
-                title: 'Violent Crimes',
-                description: 'Includes assault, homicide, rape, robbery, extortion, and terrorism.',
-              },
-              {
-                title: 'Property Crimes',
-                description: 'Includes burglary, larceny, motor vehicle theft, and arson.',
-              },
-              {
-                title: 'White-Collar Crimes',
-                description: 'Includes fraudulent financial activities and embezzlement.',
-              },
-              {
-                title: 'Organized Crimes',
-                description: 'Includes illegal distribution of goods, gambling, prostitution, and money laundering.',
-              },
-              {
-                title: 'Cyber Crimes',
-                description: 'Includes identity theft, phishing scams, and online fraud.',
-              },
-              {
-                title: 'Hate Crimes',
-                description: 'Crimes motivated by prejudice or bias against a particular group of people.',
-              },
-            ].map((crime, index) => (
-              <div key={index} className="xl:w-1/3 lg:w-1/2 md:w-full p-4 card">
-                <div className="p-6 rounded-lg h-full">
-                  <h2 className="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">{crime.title}</h2>
-                  <p className="leading-relaxed text-base mb-4">{crime.description}</p>
-                  <Link to="/form" className="fill-it-button inline-flex items-center px-4 py-2 rounded-lg">
-                    Fill It!
-                    <svg
-                      fill="none"
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      className="w-4 h-4 ml-2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </main>
+      <div className="google-login">
+        <GoogleLogin
+          onSuccess={handleGoogleLoginSuccess}
+          onError={() => {
+            alert('Google Login failed');
+          }}
+        />
+      </div>
 
-      {/* Footer */}
-      <footer className="gradient-bg shadow-lg">
-        <div className="container">
-          <p>&copy; 2025 Crime Portal. All rights reserved.</p>
-          <ul>
-            <li><Link to="/terms">Terms of Service</Link></li>
-            <li><Link to="/privacy">Privacy Policy</Link></li>
-          </ul>
-        </div>
-      </footer>
+      <p>
+        Don't have an account? 
+      </p>
+        <Link to="/signup" className="btn btn-secondary">Signup</Link>
     </div>
   );
 };
 
-export default New;
+export default Login;
