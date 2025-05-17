@@ -188,12 +188,12 @@ const Signup = () => {
             onFocus={() => setShowPasswordRequirements(true)}
             required
           />
-          <input
+{/*           <input
             type="password"
             placeholder="Re-enter Password"
             required
             onFocus={() => setShowPasswordRequirements(false)}
-          />
+          /> */}
           <div className="captcha-container">
             <input
               type="text"
