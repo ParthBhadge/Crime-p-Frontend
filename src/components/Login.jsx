@@ -144,10 +144,19 @@ const Login = () => {
             />
             <button
               type="button"
-              style={{ marginLeft: '8px' }}
+              style={{
+                marginLeft: '6px',
+                padding: '2px 6px',
+                fontSize: '1.1em',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+              aria-label={showPassword ? "Hide password" : "Show password"}
               onClick={() => setShowPassword((prev) => !prev)}
+              tabIndex={-1}
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? "🙈" : "👁️"}
             </button>
           </div>
           <button type="submit">Login</button>
