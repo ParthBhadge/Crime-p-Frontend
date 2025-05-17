@@ -35,6 +35,7 @@ const Login = () => {
         // Redirect to OTP verification form
         alert(result.error);
         setOtpSent(true); // Show OTP form
+        await handleResendOtp();
       } else {
         // Handle other errors
         alert(result.error || 'Login failed.');
