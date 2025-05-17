@@ -247,7 +247,7 @@ const Profile = () => {
       <header className="gradient-bg shadow-lg">
         <nav>
           <div className="nav-header">
-            <a href="#" className="logo2">Crime Portal</a>
+            <Link to="/" className="logo2">Crime Portal</Link>
             <button className="hamburger-menu" onClick={toggleNavbar}>
               ☰
             </button>
